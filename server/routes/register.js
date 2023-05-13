@@ -28,8 +28,6 @@ router.post("/register", async (req, res) => {
         res.cookie("token", token).status(201).json("Token created!"); //res.cookie('cookieName', valueOfCookie);
       }
     );
-
-    res.status(200).json(createdUser);
   } catch (error) {
     res.status(401).json(error);
   }
