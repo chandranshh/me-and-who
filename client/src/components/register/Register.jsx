@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../usercontext/UserContext";
 import axios from "axios";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+
+  const { setUsername: setLoggedInUsername, setId } = useContext(UserContext);
 
   const setUsernameHandler = (e) => {
     setUsername(e.target.value);
@@ -14,18 +16,16 @@ function Register() {
     setPassword(e.target.value);
   };
 
-  const setEmailHandler = (e) => {
-    setEmail(e.target.value);
-  };
-
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      await axios.post("api/auth/register", {
+      const response = await axios.post("api/auth/register", {
         username: username,
         password: password,
-        email: email,
       });
+
+      setLoggedInUsername(username);
+      setId(response.data._id);
     } catch (error) {
       console.log(error.message);
       console.log(error.config);
@@ -35,13 +35,6 @@ function Register() {
   return (
     <div className="bg-blue-50 h-screen flex items-center">
       <form className="w-64 mx-auto mb-12" onSubmit={submitHandler}>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={setEmailHandler}
-          className="block w-full rounded-sm p-2 mb-2 border"
-        />
         <input
           type="text"
           placeholder="Username"
