@@ -21,7 +21,6 @@ function Register() {
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-
       await axios.post("api/auth/register", {
         username: username,
         password: password,
@@ -30,7 +29,6 @@ function Register() {
     } catch (error) {
       console.log(error.message);
       console.log(error.config);
-      alert("Error occurred while registering. Please try again later.");
     }
   };
 
