@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemon = require("nodemon");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const handleRegister = require("./routes/register.js");
 
@@ -11,6 +12,7 @@ const handleRegister = require("./routes/register.js");
 const app = express();
 dotenv.config();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({
