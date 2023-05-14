@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Register from "../register/Register";
+import RegisterAndLoginForm from "../register/RegisterAndLoginForm";
 import { UserContext } from "../usercontext/UserContext";
 
 function Routes() {
@@ -11,7 +11,7 @@ function Routes() {
 
   return (
     <div>
-      <Register />
+      <RegisterAndLoginForm />
     </div>
   );
 }

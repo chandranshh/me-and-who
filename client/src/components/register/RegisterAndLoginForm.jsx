@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../usercontext/UserContext";
 import axios from "axios";
 
-function Register() {
+function RegisterAndLoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isMember, setIsMember] = useState(false);
@@ -21,10 +21,12 @@ function Register() {
     setPassword(e.target.value);
   };
 
+  const url = isMember ? `login` : `register`;
+
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post("api/auth/register", {
+      const response = await axios.post(`api/auth/${url}`, {
         username: username,
         password: password,
       });
@@ -64,7 +66,7 @@ function Register() {
           </div>
         )}
         {isMember && (
-          <div className="text-center mt-1">
+          <div className="text-center text-size mt-2">
             Don't have an account?{" "}
             <button onClick={setIsMemberHandler}>Click here</button>
           </div>
@@ -74,4 +76,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegisterAndLoginForm;
