@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const ws = require("ws");
 const nodemon = require("nodemon");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -44,6 +44,15 @@ app.get("/test", (req, res) => {
 });
 
 const port = process.env.PORT;
-app.listen(port, () => {
+
+//web socket handleing
+const server = app.listen(port, () => {
   console.log(`Backend is running at port: ${port}`);
+});
+
+const wss = new ws.WebSocketServer({ server: server }); //always pass a server object not just the variable
+
+wss.on(`connection`, (connection) => {
+  console.log(`connected`);
+  connection.send(`Hello`);
 });
