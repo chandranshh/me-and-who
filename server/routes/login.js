@@ -1,26 +1,13 @@
-const express = require(`express`);
 const router = require("express").Router();
 const dotenv = require("dotenv");
 const User = require("../models/User.js");
 const jwt = require("jsonwebtoken");
 const bcrpyt = require("bcrypt");
-const ws = require("ws");
 const cors = require("cors");
-
-const app = express();
-app.use(express.json());
-
-app.use(
-  cors({
-    origin: "http://localhost:3000", // your frontend domain
-    credentials: true, // allow cookies to be sent from frontend to backend
-  })
-);
 
 dotenv.config();
 
 const jwt_secret = process.env.JWT_SECRET;
-const port = process.env.PORT;
 
 //login api
 router.post("/login", async (req, res) => {
@@ -55,45 +42,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-app.use("/api/auth", router);
-
-//web socket handling
-const server = app.listen(port, () => {
-  console.log(`Backend is running at port: ${port}`);
-});
-
-const wss = new ws.WebSocketServer({ server: server }); //always pass a server object not just the variable
-
-wss.on(`connection`, (connection, req) => {
-  console.log(req.headers.cookie);
-
-  const cookie = req.headers.cookie;
-
-  if (cookie) {
-    //since there might be several cookies we need to first split it by ; as multiple cookies are separated using ;
-
-    const splitCookie = cookie
-      .split(";")
-      .find((str) => str.startsWith("token="))
-      .split("=")[1];
-    //this will split token at index 0 and part after = at index 1
-
-    jwt.verify(splitCookie, jwt_secret, {}, (error, userData) => {
-      if (error) {
-        res.status(401).json(error);
-      } else {
-        const { userId, username } = userData;
-
-        //setting up userdata of the connected user
-        connection.userId = userId;
-        connection.username = username;
-        //all connections sits inside websocket 'ws' server
-      }
-    });
-  }
-
-  //wss.clients is an object so we need to convert it to array and to that simply use spread operator to spread each object in an array form
-
-  console.log([...wss.clients].length);
-});
 module.exports = router;
