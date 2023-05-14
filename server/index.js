@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
 const handleRegister = require("./routes/register.js");
+const handleLogin = require("./routes/login.js");
 
 //middlewares
 const app = express();
@@ -35,6 +36,7 @@ mongoose
 
 //register
 app.use("/api/auth", handleRegister);
+app.use("/api/auth", handleLogin);
 
 //test
 app.get("/test", (req, res) => {
