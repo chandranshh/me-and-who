@@ -5,8 +5,13 @@ import axios from "axios";
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isMember, setIsMember] = useState(false);
 
   const { setUsername: setLoggedInUsername, setId } = useContext(UserContext);
+
+  const setIsMemberHandler = () => {
+    isMember ? setIsMember(false) : setIsMember(true);
+  };
 
   const setUsernameHandler = (e) => {
     setUsername(e.target.value);
@@ -50,8 +55,20 @@ function Register() {
           className="block w-full rounded-sm  p-2 mb-2 border"
         />
         <button className="bg-blue-500 text-white block w-full rounded-sm p-2 mb-2">
-          Register
+          {isMember ? `Login` : `Register`}
         </button>
+        {!isMember && (
+          <div className="text-center mt-2">
+            Already a member?{" "}
+            <button onClick={setIsMemberHandler}>Click here</button>
+          </div>
+        )}
+        {isMember && (
+          <div className="text-center mt-1">
+            Don't have an account?{" "}
+            <button onClick={setIsMemberHandler}>Click here</button>
+          </div>
+        )}
       </form>
     </div>
   );

@@ -6,7 +6,7 @@ function Routes() {
   const { username, id } = useContext(UserContext);
 
   if (username) {
-    return `logged in + ${username}`;
+    return `logged in + ${username} + ${id}`;
   }
 
   return (
