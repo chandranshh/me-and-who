@@ -2,17 +2,24 @@ const router = require("express").Router();
 const dotenv = require("dotenv");
 const User = require("../models/User.js");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
 
 dotenv.config();
 
 const jwt_secret = process.env.JWT_SECRET;
+const salt = bcrypt.genSaltSync(10);
 
 //register
 router.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
-    const createdUser = await User.create({ username, password });
+
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    const createdUser = await User.create({
+      username: username,
+      password: hashedPassword,
+    });
 
     //creating and signing a jwt token
     jwt.sign(
