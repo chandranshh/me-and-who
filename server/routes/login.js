@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
         }
       );
     } else {
-      res.status(404).json("Password not found!");
+      res.status(404).json(`{message:"Password not found!}`);
     }
   }
 });
