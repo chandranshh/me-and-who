@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
           _id: createdUser._id,
           username: createdUser.username,
         }); //res.cookie('cookieName', valueOfCookie);
+        console.log(res.cookie("token", token));
       }
     );
   } catch (error) {
@@ -41,8 +42,11 @@ router.get("/profile", async (req, res) => {
     const token = req.cookies?.token;
     if (token) {
       jwt.verify(token, jwt_secret, {}, (error, userData) => {
-        if (error) throw error;
-        res.json(userData);
+        if (error) {
+          res.status(401).json("Invalid token!");
+        } else {
+          res.json(userData);
+        }
       });
     } else {
       res.status(401).json("No token found!");
