@@ -53,7 +53,7 @@ const server = app.listen(port, () => {
 
 const wss = new ws.WebSocketServer({ server: server }); //always pass a server object not just the variable
 
-wss.on(`connection`, (connection, req) => {
+wss.on(`connection`, (client, req) => {
   //console.log(req.headers.cookie);
 
   const cookie = req.headers.cookie;
@@ -74,14 +74,25 @@ wss.on(`connection`, (connection, req) => {
         const { userId, username } = userData;
 
         //setting up userdata of the connected user
-        connection.userId = userId;
-        connection.username = username;
-        //all connections sits inside websocket 'ws' server
+        client.userId = userId;
+        client.username = username;
+        //all connections sits inside websocket 'wss' server
       }
     });
   }
 
-  //wss.clients is an object so we need to convert it to array and to that simply use spread operator to spread each object in an array form
+  //wss.clients is an object so we need to convert it to an array and to do that we simply use spread operator to spread each object in an array form
 
-  console.log([...wss.clients].map((user) => user.username));
+  [...wss.clients].forEach((client) => {
+    client.send(
+      JSON.stringify(
+        [...wss.clients].map((c) => ({
+          online: {
+            userId: c.userId,
+            username: c.username,
+          },
+        }))
+      )
+    );
+  });
 });

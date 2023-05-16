@@ -28,14 +28,14 @@ router.post("/register", async (req, res) => {
         username: createdUser.username,
       },
       jwt_secret,
-      {},
+      { sameSite: "none", secure: true },
       (error, token) => {
         if (error) throw error;
         res.cookie("token", token).status(201).json({
           _id: createdUser._id,
           username: createdUser.username,
         }); //res.cookie('cookieName', valueOfCookie);
-        console.log(res.cookie("token", token));
+        //console.log(res.cookie("token", token));
       }
     );
   } catch (error) {
