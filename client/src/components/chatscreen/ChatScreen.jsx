@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function ChatScreen() {
+  const [ws, setWs] = useState(null);
+  useEffect(() => {
+    const ws = new WebSocket(`ws://localhost:3001`);
+    setWs(ws);
+    ws.addEventListener(`message`, handleMessage);
+  }, []);
+
+  function handleMessage(ev) {
+    console.log(ev.data);
+    // e.data.text().then((meesageString) => {
+    //   console.log(meesageString);
+    // });
+  }
+
   return (
     <div className="flex h-screen">
       <div className="bg-white w-1/3 p-2">Contacts</div>
