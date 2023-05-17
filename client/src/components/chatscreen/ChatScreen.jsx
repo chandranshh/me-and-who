@@ -9,6 +9,7 @@ function ChatScreen() {
   const [onlinePeople, setOnlinePeople] = useState({});
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [newMsg, setNewMsg] = useState(null);
+  const [messages, setMessages] = useState([]);
   const { username, id } = useContext(UserContext);
 
   useEffect(() => {
@@ -29,20 +30,22 @@ function ChatScreen() {
     const messageData = JSON.parse(ev.data);
     if ("online" in messageData) {
       showOnlinePeople(messageData.online);
+    } else {
+      console.log(messageData);
     }
   }
 
   function sendMessage(ev) {
     ev.preventDefault();
-
+    console.log(`sending`);
     ws.send(
       JSON.stringify({
-        message: {
-          recepient: selectedUserId,
-          text: newMsg,
-        },
+        recepient: selectedUserId,
+        text: newMsg,
       })
     );
+    setNewMsg(``);
+    setMessages((prev) => [...prev, { text: newMessage, isOur: true }]);
   }
 
   const excludeLoggedInUser = { ...onlinePeople };
@@ -78,6 +81,13 @@ function ChatScreen() {
               <div className="text-gray-400">
                 &larr; Select a person from the online user list
               </div>
+            </div>
+          )}
+          {selectedUserId && (
+            <div>
+              {messages.map((message) => (
+                <div>{message.text}</div>
+              ))}
             </div>
           )}
         </div>
