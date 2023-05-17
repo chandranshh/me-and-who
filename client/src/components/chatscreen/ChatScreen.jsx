@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Avatar from "../avatar/Avatar";
 
 function ChatScreen() {
   const [ws, setWs] = useState(null);
@@ -41,8 +42,9 @@ function ChatScreen() {
           Me and Who?
         </div>
         {Object.keys(onlinePeople).map((userId) => (
-          <div className="border-b border-grey-100 py-2">
-            {onlinePeople[userId]}
+          <div className="border-b border-grey-100 py-2 flex items-center gap-2">
+            <Avatar username={onlinePeople[userId]} userId={userId} />
+            <span>{onlinePeople[userId]}</span>
           </div>
         ))}
       </div>
