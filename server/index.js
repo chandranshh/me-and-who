@@ -6,7 +6,7 @@ const ws = require("ws");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-
+const Message = require(`./models/Message.js`);
 const handleRegister = require("./routes/register.js");
 const handleLogin = require("./routes/login.js");
 
@@ -83,14 +83,29 @@ wss.on(`connection`, (client, req) => {
   }
 
   //when sends a mesasge
-  client.on("message", (message) => {
+  client.on("message", async (message) => {
     const messageData = JSON.parse(message.toString());
     const { recipient, text } = messageData;
 
     if (recipient && text) {
+      const msgDoc = await Message.create({
+        sender: client.userId,
+        recipient: recipient,
+        text: text,
+      });
+
       [...wss.clients]
         .filter((c) => c.userId === recipient)
-        .forEach((c) => c.send(JSON.stringify({ text })));
+        .forEach((c) =>
+          c.send(
+            JSON.stringify({
+              text,
+              sender: client.userId,
+              recipient: recipient,
+              id: msgDoc._id,
+            })
+          )
+        );
     }
   });
 
