@@ -8,6 +8,21 @@
   ],
   "routes": [
     {
+      "src": "/api/auth/register",
+      "method": "POST",
+      "dest": "server/routes/register.js"
+    },
+    {
+      "src": "/api/auth/login",
+      "method": "POST",
+      "dest": "server/routes/login.js"
+    },
+    {
+      "src": "/api/auth/messages",
+      "method": "GET",
+      "dest": "server/routes/messages.js"
+    },
+    {
       "src": "/api/auth/(.*)",
       "headers": {
         "Access-Control-Allow-Origin": "https://me-and-who.vercel.app",
