@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://chat-app-backend-nu.vercel.app", // your frontend domain
+    origin: "https://me-and-who.vercel.app", // your frontend domain
     credentials: true, // allow cookies to be sent from frontend to backend
   })
 );
