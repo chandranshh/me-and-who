@@ -4,6 +4,7 @@ import Logo from "../logo/Logo";
 import { useContext } from "react";
 import { UserContext } from "../usercontext/UserContext";
 import { uniqBy } from "lodash";
+import axios from "axios";
 
 function ChatScreen() {
   const [ws, setWs] = useState(null);
@@ -15,10 +16,19 @@ function ChatScreen() {
   const { username, id } = useContext(UserContext);
 
   useEffect(() => {
+    connectToWs();
+  }, []);
+
+  function connectToWs() {
     const ws = new WebSocket(`ws://localhost:3001`);
     setWs(ws);
     ws.addEventListener(`message`, handleMessage);
-  }, []);
+
+    //this will help in auto reconnecting all the client to the websocket
+    ws.addEventListener(`close`, () => {
+      connectToWs();
+    });
+  }
 
   function showOnlinePeople(peopleArray) {
     const people = {};
@@ -65,6 +75,12 @@ function ChatScreen() {
       div.scrollIntoView({ behaviour: `smooth`, block: `end` });
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (selectedUserId) {
+      axios.get("api/auth/messages/" + selectedUserId);
+    }
+  }, [selectedUserId]);
 
   const excludeLoggedInUser = { ...onlinePeople };
   delete excludeLoggedInUser[id]; //this will delete the current loggedin user from online user list
