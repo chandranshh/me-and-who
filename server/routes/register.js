@@ -49,28 +49,24 @@ router.post(
 );
 
 //profile
-router.get(
-  "/profile",
-  cors({ origin: "https://me-and-who.vercel.app" }),
-  async (req, res) => {
-    try {
-      const token = req.cookies?.token;
-      if (token) {
-        jwt.verify(token, jwt_secret, {}, (error, userData) => {
-          if (error) {
-            res.status(401).json("Invalid token!");
-          } else {
-            res.json(userData);
-          }
-        });
-      } else {
-        res.status(401).json("No token found!");
-      }
-    } catch (error) {
-      res.status(500).json(error);
+router.get("/profile", async (req, res) => {
+  try {
+    const token = req.cookies?.token;
+    if (token) {
+      jwt.verify(token, jwt_secret, {}, (error, userData) => {
+        if (error) {
+          res.status(401).json("Invalid token!");
+        } else {
+          res.json(userData);
+        }
+      });
+    } else {
+      res.status(401).json("No token found!");
     }
+  } catch (error) {
+    res.status(500).json(error);
   }
-);
+});
 
 const allowCors = (fn) => async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
