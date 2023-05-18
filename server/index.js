@@ -24,6 +24,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://me-and-who.vercel.app");
+  next();
+});
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
