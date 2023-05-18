@@ -9,7 +9,7 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     axios
-      .get("api/auth/profile")
+      .get("https://chat-app-backend-nu.vercel.app/api/auth/profile")
       .then((response) => {
         setId(response.data.userId);
         setUsername(response.data.username);

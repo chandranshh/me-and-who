@@ -21,7 +21,7 @@ function ChatScreen() {
   }, []);
 
   function connectToWs() {
-    const ws = new WebSocket(`ws://localhost:3001`);
+    const ws = new WebSocket(`ws://chat-app-backend-nu.vercel.app/:3001`);
     setWs(ws);
     ws.addEventListener(`message`, handleMessage);
 
@@ -54,10 +54,12 @@ function ChatScreen() {
   }
 
   function logoutHandler() {
-    axios.post("/api/auth/logout").then(() => {
-      setId(null);
-      setUsername(null);
-    });
+    axios
+      .post("https://chat-app-backend-nu.vercel.app/api/auth/logout")
+      .then(() => {
+        setId(null);
+        setUsername(null);
+      });
   }
 
   function sendMessage(ev) {
@@ -91,9 +93,14 @@ function ChatScreen() {
 
   useEffect(() => {
     if (selectedUserId) {
-      axios.get("api/auth/messages/" + selectedUserId).then((res) => {
-        setMessages(res.data);
-      });
+      axios
+        .get(
+          "https://chat-app-backend-nu.vercel.app/api/auth/messages/" +
+            selectedUserId
+        )
+        .then((res) => {
+          setMessages(res.data);
+        });
     }
   }, [selectedUserId]);
 
