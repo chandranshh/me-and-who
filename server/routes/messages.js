@@ -21,7 +21,7 @@ router.get(`/messages/:userId`, async (req, res) => {
             sender: { $in: [userId, userData.userId] },
             recipient: { $in: [userId, userData.userId] },
           })
-            .sort({ createdAt: -1 })
+            .sort({ createdAt: 1 })
             .exec();
 
           res.status(200).json(messagesFetched);

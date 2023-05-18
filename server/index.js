@@ -104,7 +104,7 @@ wss.on(`connection`, (client, req) => {
               text,
               sender: client.userId,
               recipient: recipient,
-              id: msgDoc._id,
+              _id: msgDoc._id,
             })
           )
         );
