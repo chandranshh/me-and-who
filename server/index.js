@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const Message = require(`./models/Message.js`);
 const handleRegister = require("./routes/register.js");
 const handleLogin = require("./routes/login.js");
+const handleMessages = require("./routes/messages.js");
 
 //middlewares
 const app = express();
@@ -38,6 +39,7 @@ mongoose
 //register
 app.use("/api/auth", handleRegister);
 app.use("/api/auth", handleLogin);
+app.use(`/api/auth`, handleMessages);
 
 //test
 app.get("/test", (req, res) => {
