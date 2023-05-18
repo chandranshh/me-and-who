@@ -26,7 +26,10 @@ function ChatScreen() {
 
     //this will help in auto reconnecting all the client to the websocket
     ws.addEventListener(`close`, () => {
-      connectToWs();
+      setTimeout(() => {
+        console.log(`Disconnected. Trying to reconnect.`);
+        connectToWs();
+      }, 1000);
     });
   }
 
@@ -78,14 +81,16 @@ function ChatScreen() {
 
   useEffect(() => {
     if (selectedUserId) {
-      axios.get("api/auth/messages/" + selectedUserId);
+      axios.get("api/auth/messages/" + selectedUserId).then((res) => {
+        setMessages(res.data);
+      });
     }
   }, [selectedUserId]);
 
   const excludeLoggedInUser = { ...onlinePeople };
   delete excludeLoggedInUser[id]; //this will delete the current loggedin user from online user list
 
-  const msgWithoutDupes = uniqBy(messages, `id`);
+  const msgWithoutDupes = uniqBy(messages, `_id`);
 
   return (
     <div className="flex h-screen">
