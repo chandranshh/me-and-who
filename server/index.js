@@ -17,17 +17,7 @@ dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: "https://me-and-who.vercel.app",
-    credentials: true,
-  })
-);
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://me-and-who.vercel.app");
-  next();
-});
+app.use(cors());
 
 mongoose
   .connect(process.env.MONGO_URL, {
