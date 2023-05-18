@@ -19,8 +19,10 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://me-and-who.vercel.app", // your frontend domain
-    credentials: true, // allow cookies to be sent from frontend to backend
+    origin: "https://me-and-who.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
