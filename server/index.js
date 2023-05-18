@@ -17,12 +17,12 @@ dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://me-and-who.vercel.app");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+app.use(
+  cors({
+    origin: `https://me-and-who.vercel.app/`,
+    credentials: true,
+  })
+);
 
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -37,9 +37,9 @@ mongoose
   });
 
 //register
-app.use("https://chat-app-backend-nu.vercel.app/api/auth", handleRegister);
-app.use("https://chat-app-backend-nu.vercel.app/api/auth", handleLogin);
-app.use(`https://chat-app-backend-nu.vercel.app/api/auth`, handleMessages);
+app.use("/api/auth", handleRegister);
+app.use("/api/auth", handleLogin);
+app.use(`/api/auth`, handleMessages);
 
 //test
 app.get("/test", (req, res) => {

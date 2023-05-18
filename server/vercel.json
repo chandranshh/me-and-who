@@ -1,20 +1,28 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./index.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
-    ],
-    "env": {
-      "MONGO_URL": "@mongo-url",
-      "JWT_SECRET": "@jwt-secret"
+  "version": 2,
+  "builds": [
+    {
+      "src": "server/index.js",
+      "use": "@vercel/node"
     }
+  ],
+  "routes": [
+    {
+      "src": "/api/auth/(.*)",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://me-and-who.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      },
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server/index.js"
+    }
+  ],
+  "env": {
+    "MONGO_URL": "@mongo-url",
+    "JWT_SECRET": "@jwt-secret"
   }
+}
