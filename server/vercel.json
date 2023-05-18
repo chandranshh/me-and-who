@@ -9,17 +9,17 @@
   "routes": [
     {
       "src": "/api/auth/register",
-      "method": "POST",
+      "methods": ["POST"],
       "dest": "server/routes/register.js"
     },
     {
       "src": "/api/auth/login",
-      "method": "POST",
+      "methods": ["POST"],
       "dest": "server/routes/login.js"
     },
     {
       "src": "/api/auth/messages",
-      "method": "GET",
+      "methods": ["GET"],
       "dest": "server/routes/messages.js"
     },
     {
