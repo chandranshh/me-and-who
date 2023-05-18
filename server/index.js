@@ -46,6 +46,10 @@ app.get("/test", (req, res) => {
   res.json("test ok");
 });
 
+app.post(`/api/auth/logout`, (req, res) => {
+  res.cookie("token", "").json(`ok`);
+});
+
 //web socket handling
 const port = process.env.PORT;
 const jwt_secret = process.env.JWT_SECRET;
