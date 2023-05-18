@@ -27,7 +27,7 @@ function RegisterAndLoginForm() {
     try {
       e.preventDefault();
       const response = await axios.post(
-        `https://chat-app-backend-nu.vercel.app/api/auth/${url}`,
+        `https://meandwho-api.vercel.app/api/auth/${url}`,
         {
           username: username,
           password: password,

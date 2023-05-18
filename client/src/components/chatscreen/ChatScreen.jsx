@@ -21,7 +21,7 @@ function ChatScreen() {
   }, []);
 
   function connectToWs() {
-    const ws = new WebSocket(`ws://chat-app-backend-nu.vercel.app/:3001`);
+    const ws = new WebSocket(`ws://https://meandwho-api.vercel.app/:3001`);
     setWs(ws);
     ws.addEventListener(`message`, handleMessage);
 
@@ -54,12 +54,10 @@ function ChatScreen() {
   }
 
   function logoutHandler() {
-    axios
-      .post("https://chat-app-backend-nu.vercel.app/api/auth/logout")
-      .then(() => {
-        setId(null);
-        setUsername(null);
-      });
+    axios.post("https://meandwho-api.vercel.app/api/auth/logout").then(() => {
+      setId(null);
+      setUsername(null);
+    });
   }
 
   function sendMessage(ev) {
@@ -95,8 +93,7 @@ function ChatScreen() {
     if (selectedUserId) {
       axios
         .get(
-          "https://chat-app-backend-nu.vercel.app/api/auth/messages/" +
-            selectedUserId
+          "https://meandwho-api.vercel.app/api/auth/messages/" + selectedUserId
         )
         .then((res) => {
           setMessages(res.data);
