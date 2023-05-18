@@ -1,19 +1,7 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/api/auth/(.*)",
-      "dest": "/server/:1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.js"
-    }
-  ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.js"
-    }
+    { "source": "/api/auth/(.*)", "destination": "/server/:1" },
+    { "source": "/(.*)", "destination": "/index.js" }
   ]
 }
