@@ -2,38 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/index.js",
+      "src": "./index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/api/auth/register",
-      "methods": ["POST"],
-      "dest": "server/routes/register.js"
-    },
-    {
-      "src": "/api/auth/login",
-      "methods": ["POST"],
-      "dest": "server/routes/login.js"
-    },
-    {
-      "src": "/api/auth/messages",
-      "methods": ["GET"],
-      "dest": "server/routes/messages.js"
-    },
-    {
-      "src": "/api/auth/(.*)",
-      "headers": {
-        "Access-Control-Allow-Origin": "https://me-and-who.vercel.app",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-      },
-      "dest": "server/index.js"
-    },
+    
     {
       "src": "/(.*)",
-      "dest": "server/index.js"
+      "dest": "/"
     }
   ],
   "env": {
