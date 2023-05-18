@@ -37,9 +37,9 @@ mongoose
   });
 
 //register
-app.use("/api/auth", handleRegister);
-app.use("/api/auth", handleLogin);
-app.use(`/api/auth`, handleMessages);
+app.use("https://chat-app-backend-nu.vercel.app/api/auth", handleRegister);
+app.use("https://chat-app-backend-nu.vercel.app/api/auth", handleLogin);
+app.use(`https://chat-app-backend-nu.vercel.app/api/auth`, handleMessages);
 
 //test
 app.get("/test", (req, res) => {
