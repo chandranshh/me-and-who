@@ -19,7 +19,6 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "me-and-who.vercel.app",
     credentials: true,
   })
 );
