@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 const User = require("../models/User.js");
 const Message = require("../models/Message.js");
 const jwt = require("jsonwebtoken");
-const cors = require("cors");
 
 dotenv.config();
 const jwt_secret = process.env.JWT_SECRET;

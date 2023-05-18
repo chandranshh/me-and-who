@@ -19,8 +19,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: `https://me-and-who.vercel.app/`,
-    credentials: true,
+    origin: "http://localhost:3000", // your frontend domain
+    credentials: true, // allow cookies to be sent from frontend to backend
   })
 );
 
@@ -53,7 +53,7 @@ app.post(`/api/auth/logout`, (req, res) => {
 //web socket handling
 const port = process.env.PORT;
 const jwt_secret = process.env.JWT_SECRET;
-const server = app.listen(3001, () => {
+const server = app.listen(port, () => {
   console.log(`Backend is running at port: ${port}`);
 });
 
