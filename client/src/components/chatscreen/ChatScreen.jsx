@@ -12,8 +12,9 @@ function ChatScreen() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [newMsg, setNewMsg] = useState(null);
   const [messages, setMessages] = useState([]);
+
   const divUnderMessages = useRef();
-  const { username, id } = useContext(UserContext);
+  const { username, id, setId, setUsername } = useContext(UserContext);
 
   useEffect(() => {
     connectToWs();
@@ -46,8 +47,17 @@ function ChatScreen() {
     if ("online" in messageData) {
       showOnlinePeople(messageData.online);
     } else if ("text" in messageData) {
-      setMessages((prev) => [...prev, { ...messageData }]);
+      if (messageData.sender === selectedUserId) {
+        setMessages((prev) => [...prev, { ...messageData }]);
+      }
     }
+  }
+
+  function logoutHandler() {
+    axios.post("/api/auth/logout").then(() => {
+      setId(null);
+      setUsername(null);
+    });
   }
 
   function sendMessage(ev) {
@@ -67,7 +77,7 @@ function ChatScreen() {
         isOur: true,
         sender: id,
         recipient: selectedUserId,
-        id: Date.now(),
+        _id: Date.now(),
       },
     ]);
   }
@@ -94,27 +104,38 @@ function ChatScreen() {
 
   return (
     <div className="flex h-screen">
-      <div className="bg-white w-1/3 p-4">
-        <Logo />
-        {Object.keys(excludeLoggedInUser).map((userId) => (
-          <div
-            key={userId}
-            onClick={() => setSelectedUserId(userId)}
-            className={
-              "border-b border-grey-100 flex items-center gap-2 cursor-pointer " +
-              (userId === selectedUserId ? `bg-blue-50` : ``)
-            }
-          >
-            {userId === selectedUserId && (
-              <div className="w-1 bg-blue-500 h-12 rounded-r-md"></div>
-            )}
-            <div className="flex gap-2 pl-4 py-2 items-center">
-              <Avatar username={onlinePeople[userId]} userId={userId} />
-              <span className="text-grey-800">{onlinePeople[userId]}</span>
+      <div className="bg-white w-1/3 p-4 flex-col">
+        <div className="flex-grow mb-64">
+          <Logo />
+          {Object.keys(excludeLoggedInUser).map((userId) => (
+            <div
+              key={userId}
+              onClick={() => setSelectedUserId(userId)}
+              className={
+                "border-b border-grey-100 flex items-center gap-2 cursor-pointer " +
+                (userId === selectedUserId ? `bg-blue-50` : ``)
+              }
+            >
+              {userId === selectedUserId && (
+                <div className="w-1 bg-blue-500 h-12 rounded-r-md"></div>
+              )}
+              <div className="flex gap-2 pl-4 py-2 items-center">
+                <Avatar username={onlinePeople[userId]} userId={userId} />
+                <span className="text-grey-800">{onlinePeople[userId]}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div className="p-2 text-center flex-grow">
+          <button
+            onClick={logoutHandler}
+            className="text=sm  text-gray-450 bg-blue-100 py-1 px-2 border rounded-sm "
+          >
+            Logout
+          </button>
+        </div>
       </div>
+
       <div className="flex flex-col bg-blue-50 w-2/3 p-2">
         <div className="flex-grow">
           {!selectedUserId && (
@@ -129,6 +150,7 @@ function ChatScreen() {
               <div className="overflow-y-scroll absolute top-0 left-0 right-0 bottom-2 ">
                 {msgWithoutDupes.map((message) => (
                   <div
+                    key={message._id}
                     className={
                       message.sender === id ? `text-right` : `text-left`
                     }
@@ -141,8 +163,6 @@ function ChatScreen() {
                           : `bg-white text-gray-500`)
                       }
                     >
-                      sender:{message.sender} <br />
-                      my id :{id} <br />
                       {message.text}
                     </div>
                   </div>
