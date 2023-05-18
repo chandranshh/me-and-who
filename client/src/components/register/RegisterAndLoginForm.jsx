@@ -26,13 +26,10 @@ function RegisterAndLoginForm() {
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post(
-        `https://meandwho-api.vercel.app/api/auth/${url}`,
-        {
-          username: username,
-          password: password,
-        }
-      );
+      const response = await axios.post(`api/auth/${url}`, {
+        username: username,
+        password: password,
+      });
 
       setLoggedInUsername(username);
       setId(response.data._id);
