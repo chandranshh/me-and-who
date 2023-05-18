@@ -53,7 +53,7 @@ app.post(`/api/auth/logout`, (req, res) => {
 //web socket handling
 const port = process.env.PORT;
 const jwt_secret = process.env.JWT_SECRET;
-const server = app.listen(port, () => {
+const server = app.listen(3001, () => {
   console.log(`Backend is running at port: ${port}`);
 });
 
