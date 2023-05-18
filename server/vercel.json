@@ -15,9 +15,5 @@
       "source": "/(.*)",
       "destination": "/index.js"
     }
-  ],
-  "env": {
-    "MONGO_URL": "mongodb+srv://chandranshyay:azure123@chat-app-db.untl4un.mongodb.net/?retryWrites=true&w=majority",
-    "JWT_SECRET": "chandlerbingheheheheh"
-  }
+  ]
 }
